@@ -19,4 +19,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Botón para ir al fragmento de reconocimiento de voz -->
+        <Button
+            android:id="@+id/button_to_voice_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ir_a_Voice_Fragment" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

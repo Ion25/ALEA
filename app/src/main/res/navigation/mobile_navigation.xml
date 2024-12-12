@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.example.alea.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_voiceFragment"
+            app:destination="@id/voiceFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -22,4 +26,13 @@
         android:name="com.example.alea.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <!-- Navegar desde el botón voiceFragment -->
+    <fragment
+        android:id="@+id/voiceFragment"
+        android:name="com.example.alea.ui.voice.VoiceFragment"
+        android:label="Reconocimiento de Voz"
+        tools:layout="@layout/fragment_voice" />
+
+
 </navigation>

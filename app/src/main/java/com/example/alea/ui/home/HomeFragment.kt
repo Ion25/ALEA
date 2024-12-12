@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.alea.databinding.FragmentHomeBinding
+import androidx.navigation.fragment.findNavController
+import com.example.alea.R
 
 class HomeFragment : Fragment() {
 
@@ -28,10 +30,18 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        /*
         val textView: TextView = binding.textHome
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+         */
+
+        // Configuración del botón para navegar al VoiceFragment
+        binding.buttonToVoiceFragment.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_voiceFragment)
+        }
+
         return root
     }
 
