@@ -85,13 +85,20 @@ class MainActivity : AppCompatActivity() {
 
     // Método para actualizar el avatar dinámicamente
     private fun actualizarAvatar(sexo: String, altura: String, peso: String) {
-        // Extraer valores reales de altura y peso
         val genero = if (sexo.contains("Hombre")) "Hombre" else "Mujer"
-        val alturaReal = altura.replace(Regex("[^0-9]"), "").toFloatOrNull() ?: 170f // Convertir altura a Float
-        val pesoReal = peso.replace(Regex("[^0-9]"), "").toFloatOrNull() ?: 70f      // Convertir peso a Float
 
-        // Llamada a AvatarView
-        avatarView.updateAvatar(genero, alturaReal / 100, pesoReal) // Altura en metros
+        // Convertir peso a número entero
+        val pesoNumerico = peso.filter { it.isDigit() }.toIntOrNull() ?: 0
+
+        // Categorizar peso en rangos
+        val pesoSimplificado = when {
+            pesoNumerico in 30..60 -> "Ligero"
+            pesoNumerico in 61..75 -> "Medio"
+            pesoNumerico > 76 -> "Pesado"
+            else -> "Pesado" // Para valores fuera del rango esperado
+        }
+
+        avatarView.updateAvatar(genero, altura, pesoSimplificado)
     }
 
 }
