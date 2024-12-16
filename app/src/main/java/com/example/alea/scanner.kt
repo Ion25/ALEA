@@ -1,41 +1,94 @@
 package com.example.alea
-
-import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.alea.databinding.ActivityScannerBinding
+import android.os.Bundle
+import android.provider.Settings
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.readimagetext.ReadImageText
+import kotlinx.coroutines.launch
 
 class scanner : AppCompatActivity() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityScannerBinding
+    private val STORAGE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE
+
+    private lateinit var btnAddImage : Button
+    private lateinit var btnProcessImage : Button
+    private lateinit var ivImage : ImageView
+    private lateinit var tvImageText : TextView
+
+    private lateinit var readImageText : ReadImageText
+
+    private val imageChose = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == Activity.RESULT_OK)
+            ivImage.setImageURI(it.data?.data)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_scanner)
 
-        binding = ActivityScannerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        btnAddImage = findViewById(R.id.btnAdd)
+        btnProcessImage = findViewById(R.id.btnProc)
+        ivImage = findViewById(R.id.ivSource)
+        tvImageText = findViewById(R.id.tvResult)
 
-        setSupportActionBar(binding.toolbar)
+        btnAddImage.setOnClickListener {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
 
-        val navController = findNavController(R.id.nav_host_fragment_content_scanner)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+            imageChose.launch (intent)
+        }
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+        btnProcessImage.setOnClickListener {
+            if (ivImage.drawable != null){
+                lifecycleScope.launch {
+                    val bitmapDrawable : BitmapDrawable = ivImage.drawable as BitmapDrawable
+                    tvImageText.text = readImageText.processImage(bitmapDrawable.bitmap, "spa")
+                }
+            }
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val permissionCheck = ContextCompat.checkSelfPermission(
+            applicationContext, STORAGE_PERMISSION
+        )
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED){
+            //Not allow permission Storage
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, STORAGE_PERMISSION)){
+                ActivityCompat.requestPermissions(this, arrayOf(STORAGE_PERMISSION), 0)
+            }else{
+                val intent = Intent()
+                intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                intent.data = Uri.fromParts( "package", this.packageName, null )
+                this.startActivity(intent)
+            }
+        }else {
+            //Storage permissions are allow
+            readImageText = ReadImageText(applicationContext)
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_scanner)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+    override fun onDestroy() {
+        super.onDestroy()
+
+        readImageText.recycle()
     }
+
 }

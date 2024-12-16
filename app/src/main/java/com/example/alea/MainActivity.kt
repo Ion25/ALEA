@@ -8,6 +8,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.alea.databinding.ActivityMainBinding
+import android.content.Intent
+
+import android.widget.Button
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,5 +35,14 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val button: Button = findViewById(R.id.button2)
+
+        // Set an OnClickListener
+        button.setOnClickListener {
+            // Create an Intent to start the TargetActivity
+            val intent = Intent(this, scanner::class.java)
+            startActivity(intent)
+        }
     }
 }
