@@ -22,4 +22,9 @@
         android:name="com.example.alea.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/scannerFragment"
+        android:name="com.example.alea.ScannerFragment"
+        android:label="Scanner"
+        tools:layout="@layout/fragment_scanner_label" />
 </navigation>

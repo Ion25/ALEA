@@ -9,6 +9,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.alea.databinding.ActivityMainBinding
 import android.content.Intent
+import android.view.MenuItem
 
 import android.widget.Button
 
@@ -40,9 +41,40 @@ class MainActivity : AppCompatActivity() {
 
         // Set an OnClickListener
         button.setOnClickListener {
-            // Create an Intent to start the TargetActivity
-            val intent = Intent(this, scanner::class.java)
-            startActivity(intent)
+            // Obtener el NavController desde el navHostFragment
+            val navController = findNavController(R.id.nav_host_fragment_activity_main)
+            navView.visibility = BottomNavigationView.GONE
+            button.visibility = Button.GONE
+            // Navegar al ScannerFragment
+            navController.navigate(R.id.scannerFragment)
+
         }
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // Mostrar de nuevo la barra de navegación al volver al MainActivity
+        val bottomNav: BottomNavigationView = findViewById(R.id.nav_view)
+        bottomNav.visibility = BottomNavigationView.VISIBLE
+
+        val button: Button = findViewById(R.id.button2)
+        button.visibility = Button.VISIBLE
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            // Volver al fragmento anterior o realizar alguna acción personalizada
+            findNavController(R.id.nav_host_fragment_activity_main).navigateUp() // Esto debería manejar la acción de retroceso
+
+            val bottomNav: BottomNavigationView = findViewById(R.id.nav_view)
+            bottomNav.visibility = BottomNavigationView.VISIBLE
+
+            val button: Button = findViewById(R.id.button2)
+            button.visibility = Button.VISIBLE
+            return true
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

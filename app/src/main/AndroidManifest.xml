@@ -13,10 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ALEA"
         tools:targetApi="31">
-        <activity
-            android:name=".scanner"
-            android:exported="false"
-            android:theme="@style/Theme.ALEA" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
