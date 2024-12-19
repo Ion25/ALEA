@@ -21,7 +21,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.readimagetext.ReadImageText
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -40,7 +45,7 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner_label) {
         }
     }
 
-
+    private lateinit var btnContinue: Button
     private lateinit var btnAddImage: Button
     private lateinit var btnProcessImage: Button
     private lateinit var ivImage: ImageView
@@ -59,10 +64,14 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner_label) {
     override fun onViewCreated(view: android.view.View, savedInstanceState: Bundle?) {
         super.onViewCreated(view,  savedInstanceState)
 
+
+
         btnAddImage = view.findViewById(R.id.btnAdd)
         btnProcessImage = view.findViewById(R.id.btnProc)
-        ivImage = view.findViewById(R.id.ivSource)
+        ivImage = view.findViewById(R.id.ivCaptureImage)
         tvImageText = view.findViewById(R.id.tvResult)
+        btnContinue = view.findViewById(R.id.btnContinue)
+
 
         btnAddImage.setOnClickListener {
             val intent = Intent()
@@ -73,9 +82,21 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner_label) {
         }
 
         btnProcessImage.setOnClickListener {
+            if (ivImage.drawable != null){
+                lifecycleScope.launch {
+                    val bitmapDrawable : BitmapDrawable = ivImage.drawable as BitmapDrawable
+                    tvImageText.text = readImageText.processImage(bitmapDrawable.bitmap, "spa")
+                }
+                btnContinue.visibility = Button.VISIBLE
+            }
+        }
+
+        btnProcessImage.setOnClickListener {
             if (ivImage.drawable != null) {
+
                 // Convertir la URI de la imagen a Bitmap
                 val bitmap = uriToBitmap(imageUri)
+
                 if (bitmap != null) {
                     lifecycleScope.launch {
                         // Procesar la imagen con Tesseract
@@ -83,10 +104,26 @@ class ScannerFragment : Fragment(R.layout.fragment_scanner_label) {
                         tvImageText.text = text // Mostrar el texto procesado en el TextView
                     }
                 } else {
-                    Toast.makeText(requireContext(), "No se pudo procesar la imagen.", Toast.LENGTH_SHORT).show()
+                    lifecycleScope.launch {
+                        val bitmapDrawable : BitmapDrawable = ivImage.drawable as BitmapDrawable
+                        tvImageText.text = readImageText.processImage(bitmapDrawable.bitmap, "spa")
+                    }
+                    //Toast.makeText(requireContext(), "No se pudo procesar la imagen.", Toast.LENGTH_SHORT).show()
                 }
+                btnContinue.visibility = Button.VISIBLE
             }
         }
+
+        btnContinue.setOnClickListener {
+            // Get the NavController for navigating between fragments
+
+            val navController = findNavController()
+            // Navigate to the info_label fragment
+            navController.navigate(R.id.info_label)
+
+        }
+
+
 
         ivCaptureImage = view.findViewById(R.id.ivCaptureImage)
 

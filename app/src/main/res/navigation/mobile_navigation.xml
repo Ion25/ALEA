@@ -25,6 +25,14 @@
     <fragment
         android:id="@+id/scannerFragment"
         android:name="com.example.alea.ScannerFragment"
-        android:label="Scanner"
+        android:label="Modo escáner"
+
         tools:layout="@layout/fragment_scanner_label" />
+    <fragment
+        android:id="@+id/info_label"
+        android:name="com.example.alea.InfoLabelFragment"
+        android:label="Información Nutricional"
+
+        tools:layout="@layout/fragment_info_label" />
+
 </navigation>
