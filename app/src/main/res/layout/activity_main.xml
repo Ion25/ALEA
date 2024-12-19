@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2EDE9">
+    android:background="@raw/fondo">
+    <VideoView
+        android:id="@+id/videoViewFondo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:scaleType="centerCrop" />
 
     <!-- Título principal -->
     <TextView
@@ -11,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="2dp"
         android:text="Sobre ti"
         android:textStyle="bold"
         android:textColor="#2A2A2A"
@@ -25,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Esta información nos ayudará a calcular tus calorías objetivo"
+        android:layout_marginTop="5dp"
+        android:text="Porfavor Brindanos Tu Informacion"
         android:textColor="#2A2A2A"
         android:textSize="14sp" />
 
@@ -70,7 +76,7 @@
                     android:textColor="#2A2A2A"
                     android:textSize="16sp" />
                 <ImageView
-                    android:id="@+id/imageViewArrow"
+                    android:id="@+id/imageViewArrow1"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
@@ -193,7 +199,7 @@
                     android:textSize="16sp" />
 
                 <ImageView
-                    android:id="@+id/imageViewArrow4"
+                    android:id="@+id/imageViewArrow"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
@@ -205,13 +211,29 @@
     </LinearLayout>
 
     <!-- Botón Continuar -->
+
+    <Button
+        android:id="@+id/btnOpenScanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="-10dp"
+        android:backgroundTint="#02BE8C"
+        android:text="scaneate"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/btnContinuar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:backgroundTint="#1FBC39"
+        android:layout_margin="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#02BE8C"
         android:text="Continuar"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />

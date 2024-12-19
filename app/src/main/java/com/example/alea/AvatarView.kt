@@ -1,4 +1,5 @@
 package com.example.alea
+
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
@@ -7,7 +8,7 @@ class AvatarView(context: Context, attrs: AttributeSet) : ImageView(context, att
 
     fun updateAvatar(gender: String, height: String, weight: String) {
         val avatarResource = when (gender) {
-            "Hombre" -> when (weight) {
+            "Masculino" -> when (weight) {
                 "Ligero" -> R.drawable.avatar_hombre_ligero
                 "Medio" -> R.drawable.avatar_hombre_medio
                 "Pesado" -> R.drawable.avatar_hombre_pesado

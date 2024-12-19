@@ -7,6 +7,11 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import android.content.Intent
+import android.widget.Button
+import android.widget.Toast
+import android.widget.VideoView
+import android.net.Uri
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,13 +36,51 @@ class MainActivity : AppCompatActivity() {
         val cardPeso = findViewById<CardView>(R.id.cardPeso)
         val tvPeso = findViewById<TextView>(R.id.tvPeso)
 
+        // Botón para abrir ScannerAvatar
+        val btnOpenScanner = findViewById<Button>(R.id.btnOpenScanner)
+        btnOpenScanner.setOnClickListener {
+            val intent = Intent(this, ScannerAvatar::class.java)
+            startActivity(intent)
+        }
+
+        // Campos del formulario
+
+        val edadField: TextView = findViewById(R.id.tvEdad)
+        val pesoField: TextView = findViewById(R.id.tvPeso)
+        val alturaField: TextView = findViewById(R.id.tvAltura)
+        val generoField: TextView = findViewById(R.id.tvSexo)
+
+        // Recibir datos del Intent
+        val intent = intent
+        val edad = intent.getStringExtra("edad")
+        val peso = intent.getStringExtra("peso")
+        val altura = intent.getStringExtra("altura")
+        val genero = intent.getStringExtra("genero")
+
+        // Llenar el formulario con los datos recibidos
+
+        edadField.text = "Edad: ${edad ?: ""}"
+        pesoField.text = "Peso: ${peso ?: ""} kg"
+        alturaField.text = "Altura: ${altura ?: ""} cm"
+        generoField.text = "Género: ${genero ?: ""}"
+        // Verificar que los datos del escaneo no sean nulos o estén en blanco
+        if (!genero.isNullOrBlank() && !altura.isNullOrBlank() && !peso.isNullOrBlank()) {
+            // Actualizar el avatar con los datos
+            actualizarAvatar(sexo = genero, altura = altura, peso = peso)
+        } else {
+            // Mostrar un mensaje si los datos no están disponibles
+            Toast.makeText(this, "Realiza un escaneo para actualizar el avatar.", Toast.LENGTH_SHORT).show()
+        }
+
+
+
         // Selector para Sexo
         cardSexo.setOnClickListener {
-            val opciones = arrayOf("Hombre", "Mujer")
+            val opciones = arrayOf("Masculino", "Femenino")
             AlertDialog.Builder(this)
-                .setTitle("Selecciona tu sexo")
+                .setTitle("Selecciona tu genero")
                 .setItems(opciones) { _, which ->
-                    tvSexo.text = "Sexo: ${opciones[which]}"
+                    tvSexo.text = "Genero: ${opciones[which]}"
                     actualizarAvatar(tvSexo.text.toString(), tvAltura.text.toString(), tvPeso.text.toString())
                 }.show()
         }
@@ -64,6 +107,21 @@ class MainActivity : AppCompatActivity() {
                 actualizarAvatar(tvSexo.text.toString(), tvAltura.text.toString(), tvPeso.text.toString())
             }
         }
+        val videoView: VideoView = findViewById(R.id.videoViewFondo)
+
+        // Ruta del video en la carpeta raw
+        val videoUri = Uri.parse("android.resource://" + packageName + "/" + R.raw.fondo)
+
+// Configurar el VideoView para reproducir el video
+        videoView.setVideoURI(videoUri)
+        videoView.setOnPreparedListener { mediaPlayer ->
+            mediaPlayer.isLooping = true // Hacer que el video se repita
+        }
+
+        videoView.start() // Iniciar la reproducción del video
+
+
+
     }
 
     private fun showNumberPicker(title: String, min: Int, max: Int, onValueSelected: (Int) -> Unit) {
@@ -85,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
     // Método para actualizar el avatar dinámicamente
     private fun actualizarAvatar(sexo: String, altura: String, peso: String) {
-        val genero = if (sexo.contains("Hombre")) "Hombre" else "Mujer"
+        val genero = if (sexo.contains("Masculino")) "Masculino" else "Femenino"
 
         // Convertir peso a número entero
         val pesoNumerico = peso.filter { it.isDigit() }.toIntOrNull() ?: 0
@@ -100,5 +158,6 @@ class MainActivity : AppCompatActivity() {
 
         avatarView.updateAvatar(genero, altura, pesoSimplificado)
     }
+
 
 }
