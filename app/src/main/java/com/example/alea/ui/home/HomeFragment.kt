@@ -38,8 +38,13 @@ class HomeFragment : Fragment() {
          */
 
         // Configuración del botón para navegar al VoiceFragment
+
         binding.buttonToVoiceFragment.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_home_to_voiceFragment)
+        }
+
+        binding.buttonToCaloriesFragment.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_caloriasFragment)
         }
 
         return root

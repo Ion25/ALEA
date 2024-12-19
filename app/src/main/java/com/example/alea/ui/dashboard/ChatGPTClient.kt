@@ -1,5 +1,5 @@
 
-package com.example.alea.ui.voice
+package com.example.alea.ui.dashboard
 
 import okhttp3.*
 import org.json.JSONArray
@@ -14,22 +14,9 @@ class ChatGPTClient {
     //private val apiKey = "" // Reemplaza con tu clave válida
 
     fun enviarPrompt(textoUsuario: String, callback: (String) -> Unit) {
-        /*
         val prompt = """
             Texto transcrito: "$textoUsuario".
-            Prompt: "Con base en el texto anterior, identifica los alimentos, las cantidades y calcula las calorías aproximadas. Devuelve los resultados en formato JSON y evita las notas: 
-            {
-                'alimentos': [
-                    {'nombre': 'string', 'cantidad': int, 'calorias': int}
-                ],
-                'calorias_totales': int
-            }"
-        """.trimIndent()
-         */
-
-        val prompt = """
-            Texto transcrito: "$textoUsuario".
-            Prompt: "Identifica los alimentos mencionados en el texto anterior. Para cada alimento, devuelve su nombre, cantidad aproximada en gramos o ml, y sus calorías aproximadas. Además, clasifica cada alimento en una o más de las siguientes categorías según corresponda: 'carbohidratos', 'proteínas' y 'grasas'. 
+            Prompt: "Identifica los alimentos mencionados en el texto anterior. Para cada alimento, devuelve su nombre, cantidad aproximada en gramos o ml, y sus calorías aproximadas. Además, a partir de esos gramos, necesito que me digas cuántos gramos de 'carbohidratos' hay en el alimento, de igual manera con 'proteínas' y 'grasas'. 
             Devuelve el resultado en formato JSON con la siguiente estructura:
             {
                 'alimentos': [
@@ -37,12 +24,14 @@ class ChatGPTClient {
                         'nombre': 'string',
                         'cantidad': int,
                         'calorias': int,
-                        'clasificacion': ['carbohidratos', 'proteinas']
+                        'carbohidratos': int,
+                        'proteinas': int,
+                        'grasas': int
                     }
                 ],
                 'calorias_totales': int
             }
-            No incluyas explicaciones adicionales."
+            No incluyas explicaciones adicionales. Es obligatorio que solo devuelvas el json definido"
         """.trimIndent()
 
 

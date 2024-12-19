@@ -32,6 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ir_a_Voice_Fragment" />
+
+        <!-- Botón para ir al fragmento de Calorias -->
+        <Button
+            android:id="@+id/button_to_calories_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ir_a_Calorias_Fragment" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
