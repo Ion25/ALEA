@@ -1,5 +1,0 @@
-# ALEA
-
-Proyecto ALEA 
-
-RAMA: DEVELOP-AXEL
