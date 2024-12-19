@@ -12,13 +12,6 @@ class SpeechHelper(context: Context) {
     private val speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
 
     fun startListening(onResult: (String) -> Unit, onError: (String) -> Unit) {
-        /*
-        val intent = RecognizerIntent().apply {
-            action = RecognizerIntent.ACTION_RECOGNIZE_SPEECH
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "es-ES") // Cambia según el idioma
-        }
-        */
 
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)

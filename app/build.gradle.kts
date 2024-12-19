@@ -51,4 +51,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Nuevas dependencias para la API
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0") // OkHttp para solicitudes HTTP
+    implementation ("org.json:json:20210307") // Manejo de JSON
+
 }
