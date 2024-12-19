@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         val peso = intent.getStringExtra("peso")
         val altura = intent.getStringExtra("altura")
         val genero = intent.getStringExtra("genero")
-
+        val btnContinuar: Button = findViewById(R.id.btnContinuar)
         // Llenar el formulario con los datos recibidos
 
         edadField.text = "Edad: ${edad ?: ""}"
@@ -119,7 +119,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         videoView.start() // Iniciar la reproducción del video
-
+        btnContinuar.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("gender", genero)
+            intent.putExtra("height", altura)
+            intent.putExtra("weight", peso)
+            startActivity(intent)
+        }
 
 
     }
