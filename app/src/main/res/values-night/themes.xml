@@ -13,11 +13,4 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Set ActionBar background color -->
-        <item name="colorPrimary">#4CAF50</item> <!-- Green color -->
-        <item name="colorPrimaryDark">#388E3C</item> <!-- Dark Green -->
-        <item name="colorAccent">#FF4081</item> <!-- Accent color, can be any color you like -->
-    </style>
 </resources>
