@@ -11,7 +11,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class ChatGPTClient {
     private val client = OkHttpClient()
 
-    //private val apiKey = "" // Reemplaza con tu clave válida
+    private val apiKey = "" // Reemplaza con tu clave válida
 
     fun enviarPrompt(textoUsuario: String, callback: (String) -> Unit) {
         /*
