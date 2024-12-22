@@ -1,10 +1,12 @@
 package com.example.alea
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import android.widget.ImageView
+import com.example.alea.ui.ScannerInfo.ScannerActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ProfileActivity : AppCompatActivity() {
@@ -51,7 +53,8 @@ class ProfileActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    // Lógica para Perfil
+                    val intent = Intent(this, ScannerActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_settings -> {

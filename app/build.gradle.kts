@@ -52,6 +52,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    //Axel Dependencies
+    implementation("cz.adaptech.tesseract4android:tesseract4android:4.8.0")
+
     // Princce Dependencies
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.core:core-ktx:1.12.0")
