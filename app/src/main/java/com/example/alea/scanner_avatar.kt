@@ -22,14 +22,14 @@ import androidx.camera.camera2.Camera2Config
 
 class ScannerAvatar : AppCompatActivity(), CameraXConfig.Provider {
 
-//    override fun getCameraXConfig(): CameraXConfig {
-//        return CameraXConfig.Builder()
-//            .setMinimumLoggingLevel(Log.DEBUG)
-//            .build()
-//    }
-    override fun getCameraXConfig() : CameraXConfig {
-        return Camera2Config.defaultConfig()
+    override fun getCameraXConfig(): CameraXConfig {
+        return CameraXConfig.Builder()
+            .setMinimumLoggingLevel(Log.DEBUG)
+            .build()
     }
+ /*   override fun getCameraXConfig() : CameraXConfig {
+        return Camera2Config.defaultConfig()
+    }*/
 
     // Declaración de vistas y variables
     private lateinit var previewView: PreviewView
