@@ -58,7 +58,8 @@ class ProfileActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_settings -> {
-                    // Lógica para Configuración
+                    val intent = Intent(this, CompatibilityActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false
