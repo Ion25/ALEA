@@ -47,7 +47,6 @@ class CompatibilityActivity : AppCompatActivity() {
         FoodItem(R.drawable.comida_huevo, "Huevo")
     )
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
