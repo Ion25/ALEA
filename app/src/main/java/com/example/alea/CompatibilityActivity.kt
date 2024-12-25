@@ -4,9 +4,12 @@ import FoodAdapter
 import FoodItem
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -75,12 +78,17 @@ class CompatibilityActivity : AppCompatActivity() {
         // Configuración de RecyclerView horizontal
         val foodListHorizontal = findViewById<RecyclerView>(R.id.foodListHorizontal)
         foodListHorizontal.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val selectedFoods = mutableListOf<FoodItem>() // Lista de alimentos seleccionados
+        val selectedFoods = mutableSetOf<FoodItem>() // Lista de alimentos seleccionados
         // Plato vacío
         val emptyPlate = findViewById<ImageView>(R.id.emptyPlate)
         val foodAdapter = FoodAdapter(foods) { selectedFood ->
-            selectedFoods.add(selectedFood) // Agregar el alimento seleccionado a la lista
-            updatePlateContent(selectedFoods, emptyPlate) // Actualizar el contenido del plato
+            if (selectedFoods.contains(selectedFood)) {
+                Toast.makeText(this, "Este alimento ya está en el plato.", Toast.LENGTH_SHORT).show()
+            } else {
+                selectedFoods.add(selectedFood) // Agregar el alimento seleccionado
+                updatePlateContent(selectedFoods.toList(), emptyPlate) // Actualizar el plato
+                checkForIncompatibilities(selectedFoods.toList()) // Verificar incompatibilidades después de agregar el alimento
+            }
         }
         foodListHorizontal.adapter = foodAdapter
 
@@ -110,8 +118,8 @@ class CompatibilityActivity : AppCompatActivity() {
                 recipeList.visibility = View.GONE
             } else {
                 // Oculta la lista horizontal y el plato vacío
+                clearPlate(emptyPlate, selectedFoods) // Limpia el plato antes de cambiar la vista
                 foodListHorizontal.visibility = View.GONE
-                emptyPlate.visibility = View.GONE
                 // Muestra todas las recetas
                 adapter.updateRecipes(recipes)
                 recipeList.visibility = View.VISIBLE
@@ -128,8 +136,8 @@ class CompatibilityActivity : AppCompatActivity() {
                 recipeList.visibility = View.GONE
             } else {
                 // Oculta la lista horizontal y el plato vacío
+                clearPlate(emptyPlate, selectedFoods) // Limpia el plato y oculta el contenido
                 foodListHorizontal.visibility = View.GONE
-                emptyPlate.visibility = View.GONE
 
                 if (favoriteRecipes.isNotEmpty()) {
                     // Muestra solo las recetas favoritas
@@ -226,4 +234,47 @@ class CompatibilityActivity : AppCompatActivity() {
         }
     }
 
+    private fun clearPlate(plateView: ImageView, selectedFoods: MutableSet<FoodItem>) {
+        val plateContainer = findViewById<ConstraintLayout>(R.id.main)
+
+        // Eliminar todas las vistas dinámicas asociadas con el plato
+        val itemsToRemove = plateContainer.children.filter { it.tag == "foodItem" }.toList()
+        itemsToRemove.forEach { plateContainer.removeView(it) }
+
+        // Limpiar la lista de alimentos seleccionados
+        selectedFoods.clear()
+
+        // Ocultar el plato vacío
+        plateView.visibility = View.GONE
+    }
+
+    private fun checkForIncompatibilities(selectedFoods: List<FoodItem>) {
+        val incompatibleFoods = listOf("Pollo", "Canela") // Ejemplo de alimentos incompatibles
+
+        // Verifica si alguno de los alimentos seleccionados es incompatible
+        val incompatibleDetected = selectedFoods.any { selectedFood ->
+            incompatibleFoods.contains(selectedFood.name)
+        }
+
+        // Solo mostrar la alerta si se ha detectado una incompatibilidad
+        if (incompatibleDetected) {
+            val alert = findViewById<FrameLayout>(R.id.incompatibilityAlert)
+            val animation = findViewById<LottieAnimationView>(R.id.incompatibilityAnimation)
+            val textView = findViewById<TextView>(R.id.incompatibilityText)
+
+            // Mostrar la alerta
+            alert.visibility = View.VISIBLE
+            animation.playAnimation()
+            textView.visibility = View.VISIBLE
+
+            // Ocultar la alerta después de 3 segundos
+            Handler(Looper.getMainLooper()).postDelayed({
+                alert.visibility = View.GONE
+            }, 3000)  // La alerta desaparecerá después de 3 segundos
+        } else {
+            // Si no hay incompatibilidad, asegúrate de ocultar la alerta si es visible
+            val alert = findViewById<FrameLayout>(R.id.incompatibilityAlert)
+            alert.visibility = View.GONE
+        }
+    }
 }

@@ -158,4 +158,39 @@
             android:visibility="gone" />
     </androidx.core.widget.NestedScrollView>
 
+    <!-- Cuadro de alerta para incompatibilidades -->
+    <FrameLayout
+        android:id="@+id/incompatibilityAlert"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/red_transparent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/incompatibilityAnimation"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:lottie_rawRes="@raw/incompatibles"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"
+                android:contentDescription="Incompatibles" />
+
+            <TextView
+                android:id="@+id/incompatibilityText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Incompatibles"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="24sp" />
+        </LinearLayout>
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
