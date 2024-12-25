@@ -2,6 +2,7 @@ package com.example.alea
 
 import FoodAdapter
 import FoodItem
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,8 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -149,13 +152,79 @@ class CompatibilityActivity : AppCompatActivity() {
     }
 
     private fun updatePlateContent(selectedFoods: List<FoodItem>, plateView: ImageView) {
-        // Aquí puedes mostrar los alimentos seleccionados en el plato
-        // Por ejemplo, cambia el contenido del plato o muestra un mensaje
+        val plateContainer = findViewById<ConstraintLayout>(R.id.main)
 
-        val foodNames = selectedFoods.joinToString(", ") { it.name }
-        Toast.makeText(this, "Alimentos en el plato: $foodNames", Toast.LENGTH_SHORT).show()
+        // Eliminar imágenes previas asociadas con el plato
+        plateContainer.children.filter { it.tag == "foodItem" }.forEach {
+            plateContainer.removeView(it)
+        }
 
-        // Alternativamente, puedes implementar un mecanismo para visualizar las imágenes en el plato
+        // Obtener las dimensiones del plato
+        val plateCenterX = plateView.x + plateView.width / 2
+        val plateCenterY = plateView.y + plateView.height / 2
+
+        // Agregar nuevas imágenes seleccionadas
+        selectedFoods.forEachIndexed { index, food ->
+            val foodImage = ImageView(this).apply {
+                setImageResource(food.imageRes)
+                tag = "foodItem" // Etiqueta para identificar imágenes dinámicas
+
+                // Tamaño de la imagen
+                layoutParams = ConstraintLayout.LayoutParams(100, 100)
+            }
+
+            // Calcular desplazamientos para superposición
+            val offsetX = (index % 3) * 40 - 60 // Ajusta horizontalmente (-60 centra las imágenes)
+            val offsetY = (index / 3) * 40 - 40 // Ajusta verticalmente (-40 para empezar en el centro)
+
+            // Posicionar la imagen relativa al centro del plato
+            foodImage.x = plateCenterX + offsetX
+            foodImage.y = plateCenterY + offsetY
+
+            // Añadir la imagen al contenedor principal
+            plateContainer.addView(foodImage)
+        }
+
+        // Filtrar recetas en función de los alimentos seleccionados
+        val filteredRecipes = filterRecipesByIngredients(selectedFoods)
+        updateRecipeList(filteredRecipes) // Actualizar lista de recetas debajo del plato
+    }
+
+    private fun animateFoodToPlate(foodView: ImageView, plateView: ImageView) {
+        val plateCenterX = plateView.x + plateView.width / 2
+        val plateCenterY = plateView.y + plateView.height / 2
+        ObjectAnimator.ofFloat(foodView, "translationX", plateCenterX - foodView.x).apply {
+            duration = 500
+            start()
+        }
+        ObjectAnimator.ofFloat(foodView, "translationY", plateCenterY - foodView.y).apply {
+            duration = 500
+            start()
+        }
+    }
+
+    private fun filterRecipesByIngredients(selectedFoods: List<FoodItem>): List<Recipe> {
+        val selectedFoodNames = selectedFoods.map { it.name.toLowerCase() }
+        return recipes.filter { recipe ->
+            recipe.ingredients.split(", ").any { ingredient ->
+                selectedFoodNames.any { selectedFood ->
+                    ingredient.toLowerCase().contains(selectedFood)
+                }
+            }
+        }
+    }
+
+    private fun updateRecipeList(filteredRecipes: List<Recipe>) {
+        val recipeList = findViewById<RecyclerView>(R.id.recipeList)
+
+        if (filteredRecipes.isNotEmpty()) {
+            adapter.updateRecipes(filteredRecipes)
+            recipeList.visibility = View.VISIBLE
+        } else {
+            adapter.updateRecipes(emptyList()) // Actualizar a una lista vacía si no hay coincidencias
+            recipeList.visibility = View.GONE
+            Toast.makeText(this, "No hay recetas que coincidan con los alimentos seleccionados", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

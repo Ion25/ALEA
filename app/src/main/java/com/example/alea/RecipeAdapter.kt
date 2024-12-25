@@ -54,9 +54,11 @@ class RecipeAdapter(private val allRecipes: List<Recipe>) : RecyclerView.Adapter
                 favoriteRecipes.remove(recipe)
                 holder.starAnimation.cancelAnimation()
                 holder.starAnimation.progress = 0f
+                Toast.makeText(holder.itemView.context, "${recipe.name} eliminado de favoritos", Toast.LENGTH_SHORT).show()
             } else {
                 favoriteRecipes.add(recipe)
                 holder.starAnimation.playAnimation()
+                Toast.makeText(holder.itemView.context, "${recipe.name} agregado a favoritos", Toast.LENGTH_SHORT).show()
             }
         }
     }
