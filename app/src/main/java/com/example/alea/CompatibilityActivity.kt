@@ -117,6 +117,23 @@ class CompatibilityActivity : AppCompatActivity() {
         // Configurar animación 2
         val animation2 = findViewById<LottieAnimationView>(R.id.animation2)
         animation2.setOnClickListener {
+            animation2.setColorFilter(resources.getColor(R.color.hintColor, theme))
+
+            // Animar la reducción de tamaño
+            animation2.animate()
+                .scaleX(0.5f) // Reducir al 80% del tamaño original en X
+                .scaleY(0.5f) // Reducir al 80% del tamaño original en Y
+                .setDuration(300) // Duración de la animación en milisegundos
+                .withEndAction {
+                    // Vuelve al tamaño original después de la animación
+                    animation2.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(300)
+                        .start()
+                }
+                .start()
+
             if (foodListHorizontal.visibility == View.VISIBLE && emptyPlate.visibility == View.VISIBLE) {
                 // Oculta la lista y el plato vacío si ya están visibles
                 foodListHorizontal.visibility = View.GONE
@@ -128,13 +145,30 @@ class CompatibilityActivity : AppCompatActivity() {
                 // Muestra la lista horizontal y el plato vacío
                 foodListHorizontal.visibility = View.VISIBLE
                 emptyPlate.visibility = View.VISIBLE
-                Toast.makeText(this, "Selecciona tus alimentos", Toast.LENGTH_SHORT).show()
             }
         }
 
         // Botón para mostrar todas las recetas
         val animation1 = findViewById<LottieAnimationView>(R.id.animation1)
         animation1.setOnClickListener {
+
+            animation1.setColorFilter(resources.getColor(R.color.hintColor, theme))
+
+            // Animar la reducción de tamaño
+            animation1.animate()
+                .scaleX(0.5f) // Reducir al 80% del tamaño original en X
+                .scaleY(0.5f) // Reducir al 80% del tamaño original en Y
+                .setDuration(300) // Duración de la animación en milisegundos
+                .withEndAction {
+                    // Vuelve al tamaño original después de la animación
+                    animation1.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(300)
+                        .start()
+                }
+                .start()
+
             if (recipeList.visibility == View.VISIBLE && adapter.getDisplayedRecipes() == recipes) {
                 // Si ya se muestran todas las recetas, oculta el RecyclerView
                 recipeList.visibility = View.GONE
@@ -145,7 +179,6 @@ class CompatibilityActivity : AppCompatActivity() {
                 // Muestra todas las recetas
                 adapter.updateRecipes(recipes)
                 recipeList.visibility = View.VISIBLE
-                Toast.makeText(this, "Mostrando todas las recetas", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -153,6 +186,23 @@ class CompatibilityActivity : AppCompatActivity() {
         val animation3 = findViewById<LottieAnimationView>(R.id.animation3)
         animation3.setOnClickListener {
             val favoriteRecipes = adapter.getFavoriteRecipes()
+            animation3.setColorFilter(resources.getColor(R.color.hintColor, theme))
+
+            // Animar la reducción de tamaño
+            animation3.animate()
+                .scaleX(0.5f) // Reducir al 80% del tamaño original en X
+                .scaleY(0.5f) // Reducir al 80% del tamaño original en Y
+                .setDuration(300) // Duración de la animación en milisegundos
+                .withEndAction {
+                    // Vuelve al tamaño original después de la animación
+                    animation3.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(300)
+                        .start()
+                }
+                .start()
+
             if (recipeList.visibility == View.VISIBLE && adapter.getDisplayedRecipes() == favoriteRecipes) {
                 // Si ya se muestran las recetas favoritas, oculta el RecyclerView
                 recipeList.visibility = View.GONE
@@ -165,11 +215,9 @@ class CompatibilityActivity : AppCompatActivity() {
                     // Muestra solo las recetas favoritas
                     adapter.updateRecipes(favoriteRecipes)
                     recipeList.visibility = View.VISIBLE
-                    Toast.makeText(this, "Mostrando recetas favoritas", Toast.LENGTH_SHORT).show()
                 } else {
                     // No hay recetas favoritas, oculta el RecyclerView
                     recipeList.visibility = View.GONE
-                    Toast.makeText(this, "No hay recetas favoritas aún.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
