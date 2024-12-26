@@ -61,6 +61,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageButton
 import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 
 class MainActivity : AppCompatActivity() {
 
@@ -208,6 +209,7 @@ class MainActivity : AppCompatActivity() {
                 actualizarEstadoFormulario()
             }
         }
+        /*
         val videoView: VideoView = findViewById(R.id.videoViewFondo)
 
         // Ruta del video en la carpeta raw
@@ -230,7 +232,14 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-*/
+*/*/
+        val lottieAnimationView: LottieAnimationView = findViewById(R.id.lottieAnimationFondo)
+
+// Configurar la animación programáticamente (opcional)
+        lottieAnimationView.setAnimation(R.raw.fondoanimation) // Establece la animación
+        lottieAnimationView.repeatCount = LottieDrawable.INFINITE // Repite la animación infinitamente
+        lottieAnimationView.playAnimation() // Inicia la animación
+
         primerFormulario.visibility = View.VISIBLE
         segundoFormulario.visibility = View.GONE
         btnContinuar.visibility = View.GONE
@@ -492,6 +501,7 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
+        /*
         val videoView: VideoView = findViewById(R.id.videoViewFondo)
         val videoUri = Uri.parse("android.resource://" + packageName + "/" + R.raw.fondo)
         videoView.setVideoURI(videoUri)
@@ -499,6 +509,7 @@ class MainActivity : AppCompatActivity() {
             mediaPlayer.isLooping = true
         }
         videoView.start() // Reiniciar el video
+        */
         avatarView.visibility = View.VISIBLE
     }
 

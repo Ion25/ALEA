@@ -51,13 +51,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient">
+    android:background="@color/primaryColor"
+    android:fitsSystemWindows="true">
 
-    <!-- Video de Fondo -->
-    <VideoView
-        android:id="@+id/videoViewFondo"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationFondo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/fondoanimation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 
 
 
@@ -276,11 +279,11 @@
         android:layout_width="121dp"
         android:layout_height="95dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="420dp"
         android:layout_marginEnd="20dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/scanner" />
+        app:lottie_rawRes="@raw/scanner2" />
 
     <!-- Texto debajo de la animación -->
     <com.airbnb.lottie.LottieAnimationView
@@ -288,7 +291,7 @@
         android:layout_width="101dp"
         android:layout_height="95dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="420dp"
         android:layout_marginEnd="20dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
@@ -363,7 +366,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_profile_1"
+                    android:src="@drawable/ic_profile"
                     app:tint="#22BA37" />
 
                 <EditText
@@ -486,8 +489,9 @@
         android:id="@+id/btnCrearPerfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="650dp"
-        android:background="@drawable/button_gradient"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:background="@color/primaryColor"
         android:elevation="6dp"
         android:padding="14dp"
         android:text="Crear Perfil"

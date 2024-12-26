@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import kotlin.math.log
 
-class CompatibilityActivity : AppCompatActivity() {
+class CompatibilityActivity : BaseActivity.BaseActivity() {
 
     private lateinit var adapter: RecipeAdapter
     private val recipes = listOf(
