@@ -249,14 +249,12 @@ class CompatibilityActivity : AppCompatActivity() {
     }
 
     private fun checkForIncompatibilities(selectedFoods: List<FoodItem>) {
-        val incompatibleFoods = listOf("Pollo", "Canela") // Ejemplo de alimentos incompatibles
+        val requiredIncompatiblePair = setOf("Pollo", "Plátano") // Par de alimentos incompatibles
 
-        // Verifica si alguno de los alimentos seleccionados es incompatible
-        val incompatibleDetected = selectedFoods.any { selectedFood ->
-            incompatibleFoods.contains(selectedFood.name)
-        }
+        // Verificar si ambos alimentos están presentes en la selección
+        val selectedFoodNames = selectedFoods.map { it.name }.toSet()
+        val incompatibleDetected = requiredIncompatiblePair.all { it in selectedFoodNames }
 
-        // Solo mostrar la alerta si se ha detectado una incompatibilidad
         if (incompatibleDetected) {
             val alert = findViewById<FrameLayout>(R.id.incompatibilityAlert)
             val animation = findViewById<LottieAnimationView>(R.id.incompatibilityAnimation)
@@ -272,7 +270,7 @@ class CompatibilityActivity : AppCompatActivity() {
                 alert.visibility = View.GONE
             }, 3000)  // La alerta desaparecerá después de 3 segundos
         } else {
-            // Si no hay incompatibilidad, asegúrate de ocultar la alerta si es visible
+            // Ocultar la alerta si no hay incompatibilidad
             val alert = findViewById<FrameLayout>(R.id.incompatibilityAlert)
             alert.visibility = View.GONE
         }
