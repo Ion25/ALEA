@@ -21,11 +21,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.alea.BaseActivity
+import com.example.alea.MainActivity
+import com.example.alea.ProfileActivity
 import com.example.alea.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 import java.io.File
 
-class ScannerActivity : AppCompatActivity() {
+class ScannerActivity : BaseActivity.BaseActivity() {
 
 
     private val REQUEST_CAMERA_CAPTURE = 101

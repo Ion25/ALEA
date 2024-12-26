@@ -9,61 +9,48 @@ import android.widget.ImageView
 import com.example.alea.ui.ScannerInfo.ScannerActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : BaseActivity.BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        // Recibir datos desde la intención
+        // Recibir los datos desde el Intent
         val gender = intent.getStringExtra("gender") ?: "Desconocido"
+        val age = intent.getStringExtra("age") ?: "N/A"
         val height = intent.getStringExtra("height") ?: "N/A"
         val weight = intent.getStringExtra("weight") ?: "N/A"
+        val name = intent.getStringExtra("name") ?: "Sin Nombre"
+        val activity = intent.getStringExtra("activity") ?: "N/A"
+        val goal = intent.getStringExtra("goal") ?: "N/A"
 
-        // Configurar los datos en los TextView e ImageView
+        // Configurar los datos en los TextViews
+        findViewById<TextView>(R.id.tvUsername).text = name
         findViewById<TextView>(R.id.tvGender).text = "Género: $gender"
-        findViewById<TextView>(R.id.tvHeight).text = "Altura: $height"
-        findViewById<TextView>(R.id.tvWeight).text = "Peso: $weight"
-        val avatarView = findViewById<ImageView>(R.id.ivAvatar)
+        findViewById<TextView>(R.id.tvHeight).text = "Altura: $height cm"
+        findViewById<TextView>(R.id.tvWeight).text = "Peso: $weight kg"
 
-        // Actualizar el avatar
-        val avatarResource = when (gender) {
-            "Masculino" -> when (weight) {
-                "Ligero" -> R.drawable.avatar_hombre_ligero
-                "Medio" -> R.drawable.avatar_hombre_medio
-                "Pesado" -> R.drawable.avatar_hombre_pesado
+        // Si tienes un Spinner para "Actividad" y "Objetivo", considera agregar datos o actualizaciones a ellos.
+        // Aquí, simplemente se mostrará el texto como ejemplo.
+        findViewById<TextView>(R.id.tvActivityLevelLabel).text = "Nivel de Actividad: $activity"
+        findViewById<TextView>(R.id.tvGoalLabel).text = "Objetivo: $goal"
+
+        // Configurar el avatar según el género y peso
+        val avatarView = findViewById<ImageView>(R.id.ivAvatar)
+        val avatarResource = when (gender.lowercase()) {
+            "masculino" -> when (weight.lowercase()) {
+                "ligero" -> R.drawable.avatar_hombre_ligero
+                "medio" -> R.drawable.avatar_hombre_medio
+                "pesado" -> R.drawable.avatar_hombre_pesado
                 else -> R.drawable.avatar_hombre_medio
             }
-            "Mujer" -> when (weight) {
-                "Ligero" -> R.drawable.avatar_mujer_ligera
-                "Medio" -> R.drawable.avatar_mujer_media
-                "Pesado" -> R.drawable.avatar_mujer_pesada
+            "femenino" -> when (weight.lowercase()) {
+                "ligero" -> R.drawable.avatar_mujer_ligera
+                "medio" -> R.drawable.avatar_mujer_media
+                "pesado" -> R.drawable.avatar_mujer_pesada
                 else -> R.drawable.avatar_mujer_media
             }
             else -> R.drawable.avatar_hombre_ligero
         }
         avatarView.setImageResource(avatarResource)
-
-        // Configurar menú inferior
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    // Lógica para Home
-                    true
-                }
-                R.id.nav_profile -> {
-                    val intent = Intent(this, ScannerActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                R.id.nav_settings -> {
-                    // Lógica para Configuración
-                    true
-                }
-                else -> false
-            }
-        }
-
     }
 }

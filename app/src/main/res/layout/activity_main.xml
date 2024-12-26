@@ -50,14 +50,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/background_gradient">
 
+    <!-- Video de Fondo -->
     <VideoView
         android:id="@+id/videoViewFondo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent" />
 
-        android:scaleType="centerCrop" />
+
 
     <!-- Título principal -->
     <TextView
@@ -66,11 +68,11 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"
-        android:text="Sobre ti"
-        android:textStyle="bold"
-        android:textColor="#2A2A2A"
-        android:typeface="sans"
-        android:textSize="22sp" />
+        android:text="Alea"
+        android:textSize="58sp"
+        android:textStyle="italic|bold"
+        android:textColor="#000000"
+        android:fontFamily="@font/roboto_mono_italic_variable_font"/>
 
     <!-- Descripción -->
     <TextView
@@ -79,37 +81,40 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Porfavor Brindanos Tu Informacion"
-        android:textColor="#2A2A2A"
-        android:textSize="14sp" />
-
+        android:layout_marginTop="2dp"
+        android:text="Bienvenido"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+    <!-- formualrio 1 -->
     <!-- Contenedor principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/primerFormulario"
         android:layout_below="@id/tvDescription"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="30dp">
 
         <!-- Tarjeta para Sexo -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardSexo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="12dp">
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="13dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:src="@drawable/ic_sexo"
                     app:tint="#22BA37" />
 
@@ -118,11 +123,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="16dp"
                     android:text="Sexo: Hombre"
                     android:textStyle="bold"
                     android:textColor="#2A2A2A"
                     android:textSize="16sp" />
+
                 <ImageView
                     android:id="@+id/imageViewArrow1"
                     android:layout_width="24dp"
@@ -138,19 +144,20 @@
             android:id="@+id/cardEdad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="12dp">
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="15dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:src="@drawable/ic_edad"
                     app:tint="#22BA37" />
 
@@ -159,11 +166,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="16dp"
                     android:text="Edad: 21 años"
                     android:textStyle="bold"
                     android:textColor="#2A2A2A"
                     android:textSize="16sp" />
+
                 <ImageView
                     android:id="@+id/imageViewArrow2"
                     android:layout_width="24dp"
@@ -179,19 +187,20 @@
             android:id="@+id/cardAltura"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="12dp">
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="15dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:src="@drawable/ic_altura"
                     app:tint="#22BA37" />
 
@@ -200,11 +209,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="16dp"
                     android:text="Altura: 170 cm"
                     android:textStyle="bold"
                     android:textColor="#2A2A2A"
                     android:textSize="16sp" />
+
                 <ImageView
                     android:id="@+id/imageViewArrow3"
                     android:layout_width="24dp"
@@ -220,18 +230,19 @@
             android:id="@+id/cardPeso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="12dp">
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="15dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:src="@drawable/ic_peso"
                     app:tint="#22BA37" />
 
@@ -240,7 +251,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="12dp"
+                    android:layout_marginStart="16dp"
                     android:text="Peso: 70.0 kg"
                     android:textStyle="bold"
                     android:textColor="#2A2A2A"
@@ -253,48 +264,239 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_arrow_right"
                     app:tint="#22BA37" />
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
+
     <!-- Botón Continuar -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationScanner"
+        android:layout_width="121dp"
+        android:layout_height="95dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/scanner" />
 
-    <Button
-        android:id="@+id/btnOpenScanner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:layout_marginStart="-10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginEnd="-10dp"
-        android:backgroundTint="#02BE8C"
-        android:text="scaneate"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+    <!-- Texto debajo de la animación -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationHint"
+        android:layout_width="101dp"
+        android:layout_height="95dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/click_hint_animation3" />
 
-    <Button
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/btnContinuar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="#02BE8C"
-        android:text="Continuar"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="90dp"
+        android:layout_marginEnd="40dp"
+        android:contentDescription="Animación para Continuar"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/continuar" />
+
 
     <com.example.alea.AvatarView
         android:id="@+id/avatarView"
         android:layout_width="182dp"
-        android:layout_height="220dp"
+        android:layout_height="250dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="54dp"
-        android:layout_marginTop="365dp"
+        android:layout_marginTop="405dp"
         android:layout_marginEnd="45dp" />
+
+
+
+    <!-- formulario2 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/segundoFormulario"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_marginTop="90dp"
+        android:padding="30dp">
+
+        <!-- Título principal -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Por favor indícanos tu nombre o alias"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:fontFamily="@font/roboto_mono_italic_variable_font"
+            android:gravity="start"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Campo de Nombre -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardNombre"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/parafor"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_profile"
+                    app:tint="#22BA37" />
+
+                <EditText
+                    android:id="@+id/etNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:hint="Tu nombre o alias"
+                    android:inputType="textPersonName"
+                    android:textColor="#000000"
+                    android:textColorHint="#808080"
+                    android:textSize="16sp"
+                    android:background="@null" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Nivel de Actividad Física -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nivel de Actividad Física"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:fontFamily="@font/roboto_mono_italic_variable_font"
+            android:layout_marginBottom="12dp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardActividad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_activity"
+                    app:tint="#22BA37" />
+
+                <TextView
+                    android:id="@+id/tvActividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Selecciona actividad"
+                    android:textColor="#808080"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Objetivo -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Cuál es tu objetivo?"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:fontFamily="@font/roboto_mono_italic_variable_font"
+            android:layout_marginBottom="12dp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardObjetivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_goal"
+                    app:tint="#22BA37" />
+
+                <TextView
+                    android:id="@+id/tvObjetivo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Selecciona objetivo"
+                    android:textColor="#808080"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/btnRegresar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="90dp"
+        android:layout_marginEnd="300dp"
+        android:contentDescription="Animación para Continuar"
+        android:scaleX="-1"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/continuar" />
+    <!-- Botón Guardar -->
+    <Button
+        android:id="@+id/btnCrearPerfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="650dp"
+        android:background="@drawable/button_gradient"
+        android:elevation="6dp"
+        android:padding="14dp"
+        android:text="Crear Perfil"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
 </RelativeLayout>
+
+
+
+
 
 

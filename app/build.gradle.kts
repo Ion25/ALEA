@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,7 +76,11 @@ dependencies {
     implementation ("androidx.camera:camera-view:1.4.0-alpha01")
 
     implementation ("com.google.android.material:material:1.9.0")
+    implementation ("androidx.cardview:cardview:1.0.0")
+    implementation ("com.airbnb.android:lottie:5.2.0")
+    implementation ("com.airbnb.android:lottie:6.0.0")
 
+    implementation ("androidx.appcompat:appcompat:1.6.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
