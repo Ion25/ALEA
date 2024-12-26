@@ -9,6 +9,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -48,6 +49,17 @@ class CompatibilityActivity : AppCompatActivity() {
         FoodItem(R.drawable.comida_fresa, "Fresas"),
         FoodItem(R.drawable.comida_arroz, "Arroz"),
         FoodItem(R.drawable.comida_huevo, "Huevo")
+    )
+
+    private val incompatibilityReasons = mapOf(
+        Pair("Pollo", "Canela") to "La combinación de pollo y canela puede ralentizar la digestión, lo que afecta el metabolismo. Esto puede llevar a una sensación de pesadez y dificultar la quema eficiente de calorías.",
+        Pair("Carne", "Plátano") to "La carne es un alimento difícil de digerir, y al combinarla con plátano, se aumenta la fermentación en el sistema digestivo, lo cual puede causar hinchazón y aumentar la retención de líquidos, afectando tu peso ideal.",
+        Pair("Pescado", "Leche") to "El pescado combinado con leche puede dificultar la absorción de nutrientes, lo que ralentiza el metabolismo y puede generar un impacto en la eficiencia de tu proceso digestivo, afectando negativamente el control del peso.",
+        Pair("Arroz", "Azúcar") to "El arroz con azúcar puede causar picos de insulina, lo que favorece el almacenamiento de grasa, particularmente en la zona abdominal. Esta combinación no es ideal si buscas mantener un peso saludable.",
+        Pair("Fresas", "Leche") to "La combinación de fresas y leche puede afectar la digestión, lo que podría causar incomodidad estomacal y reducir la capacidad del cuerpo para procesar los alimentos eficientemente, afectando el metabolismo y el control del peso.",
+        Pair("Sal", "Pescado") to "El exceso de sal combinado con pescado puede llevar a la retención de líquidos, lo que incrementa la hinchazón y puede hacerte sentir más pesado, lo cual no es adecuado cuando estás tratando de mantener un peso ideal.",
+        Pair("Huevo", "Canela") to "La combinación de huevo con canela puede causar problemas digestivos, lo que dificulta la correcta absorción de los nutrientes y podría afectar la eficiencia en el metabolismo, interferiendo con tus objetivos de control de peso.",
+        Pair("Pollo", "Azúcar") to "El pollo con azúcar puede interrumpir la digestión eficiente de proteínas y promover un aumento en los niveles de glucosa en sangre, lo que puede promover el almacenamiento de grasa y dificultar la pérdida de peso."
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -249,31 +261,49 @@ class CompatibilityActivity : AppCompatActivity() {
     }
 
     private fun checkForIncompatibilities(selectedFoods: List<FoodItem>) {
-        val incompatibleFoods = listOf("Pollo", "Canela") // Ejemplo de alimentos incompatibles
+        val alert = findViewById<FrameLayout>(R.id.incompatibilityAlert)
+        val animation = findViewById<LottieAnimationView>(R.id.incompatibilityAnimation)
+        val textView = findViewById<TextView>(R.id.incompatibilityText)
+        val reasonsTextView = findViewById<TextView>(R.id.incompatibilityReasons)
+        val buttonUnderstood = findViewById<Button>(R.id.buttonUnderstood)
 
-        // Verifica si alguno de los alimentos seleccionados es incompatible
-        val incompatibleDetected = selectedFoods.any { selectedFood ->
-            incompatibleFoods.contains(selectedFood.name)
+        if (selectedFoods.size < 2) {
+            // Ocultar alerta si hay menos de dos alimentos seleccionados
+            alert.visibility = View.GONE
+            return
         }
 
-        // Solo mostrar la alerta si se ha detectado una incompatibilidad
-        if (incompatibleDetected) {
-            val alert = findViewById<FrameLayout>(R.id.incompatibilityAlert)
-            val animation = findViewById<LottieAnimationView>(R.id.incompatibilityAnimation)
-            val textView = findViewById<TextView>(R.id.incompatibilityText)
+        val incompatibleFoods = mutableListOf<Pair<String, String>>()
+        val detectedReasons = mutableListOf<String>()
 
+        // Detectar incompatibilidades y razones
+        for (i in selectedFoods.indices) {
+            for (j in i + 1 until selectedFoods.size) {
+                val food1 = selectedFoods[i].name
+                val food2 = selectedFoods[j].name
+                val reason = incompatibilityReasons[Pair(food1, food2)] ?: incompatibilityReasons[Pair(food2, food1)]
+                if (reason != null) {
+                    incompatibleFoods.add(Pair(food1, food2))
+                    detectedReasons.add(reason)
+                }
+            }
+        }
+
+        if (incompatibleFoods.isNotEmpty()) {
             // Mostrar la alerta
             alert.visibility = View.VISIBLE
             animation.playAnimation()
             textView.visibility = View.VISIBLE
 
-            // Ocultar la alerta después de 3 segundos
-            Handler(Looper.getMainLooper()).postDelayed({
-                alert.visibility = View.GONE
-            }, 3000)  // La alerta desaparecerá después de 3 segundos
+            // Mostrar razones de incompatibilidad
+            reasonsTextView.text = detectedReasons.joinToString(separator = "\n") { it }
+
+            // Configurar botón "Entendido"
+            buttonUnderstood.setOnClickListener {
+                alert.visibility = View.GONE // Ocultar alerta al presionar el botón
+            }
         } else {
-            // Si no hay incompatibilidad, asegúrate de ocultar la alerta si es visible
-            val alert = findViewById<FrameLayout>(R.id.incompatibilityAlert)
+            // Ocultar alerta si no hay incompatibilidades
             alert.visibility = View.GONE
         }
     }
