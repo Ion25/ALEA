@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import kotlin.math.log
 
-class CompatibilityActivity : BaseActivity.BaseActivity() {
+class CompatibilityActivity : AppCompatActivity() {
 
     private lateinit var adapter: RecipeAdapter
     private val recipes = listOf(
@@ -90,7 +90,17 @@ class CompatibilityActivity : BaseActivity.BaseActivity() {
         // Configuración de RecyclerView horizontal
         val foodListHorizontal = findViewById<RecyclerView>(R.id.foodListHorizontal)
         foodListHorizontal.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val selectedFoods = mutableSetOf<FoodItem>() // Lista de alimentos seleccionados
+
+        // Iniciar la animación en bucle
+        startLoopingAnimation(foodListHorizontal)
+
+        // Detener la animación al tocar la lista
+        foodListHorizontal.setOnTouchListener { _, _ ->
+            stopLoopingAnimation()
+            false // Permitir que otros eventos táctiles se procesen normalmente
+        }
+
+        val selectedFoods = mutableListOf<FoodItem>() // Lista de alimentos seleccionados
         // Plato vacío
         val emptyPlate = findViewById<ImageView>(R.id.emptyPlate)
         val foodAdapter = FoodAdapter(foods) { selectedFood ->
@@ -99,7 +109,7 @@ class CompatibilityActivity : BaseActivity.BaseActivity() {
             } else {
                 selectedFoods.add(selectedFood) // Agregar el alimento seleccionado
                 updatePlateContent(selectedFoods.toList(), emptyPlate) // Actualizar el plato
-                checkForIncompatibilities(selectedFoods.toList()) // Verificar incompatibilidades después de agregar el alimento
+                checkForIncompatibilities(selectedFoods) // Verificar incompatibilidades después de agregar el alimento
             }
         }
         foodListHorizontal.adapter = foodAdapter
@@ -170,6 +180,28 @@ class CompatibilityActivity : BaseActivity.BaseActivity() {
 
     }
 
+    private lateinit var scrollHandler: Handler
+    private var scrollRunnable: Runnable? = null
+
+    private fun startLoopingAnimation(recyclerView: RecyclerView) {
+        scrollHandler = Handler(Looper.getMainLooper())
+        scrollRunnable = object : Runnable {
+            override fun run() {
+                recyclerView.smoothScrollBy(5, 0) // Desplazar 5 píxeles hacia la derecha
+                if (!recyclerView.canScrollHorizontally(1)) {
+                    // Si llegamos al final, reiniciamos la posición al inicio
+                    recyclerView.scrollToPosition(0)
+                }
+                scrollHandler.postDelayed(this, 50) // Repetir cada 50ms
+            }
+        }
+        scrollHandler.post(scrollRunnable!!)
+    }
+
+    private fun stopLoopingAnimation() {
+        scrollRunnable?.let { scrollHandler.removeCallbacks(it) }
+    }
+
     private fun updatePlateContent(selectedFoods: List<FoodItem>, plateView: ImageView) {
         val plateContainer = findViewById<ConstraintLayout>(R.id.main)
 
@@ -193,8 +225,8 @@ class CompatibilityActivity : BaseActivity.BaseActivity() {
             }
 
             // Calcular desplazamientos para superposición
-            val offsetX = (index % 3) * 40 - 60 // Ajusta horizontalmente (-60 centra las imágenes)
-            val offsetY = (index / 3) * 40 - 40 // Ajusta verticalmente (-40 para empezar en el centro)
+            val offsetX = (index % 2) * 40 - 60 // Ajusta horizontalmente (-60 centra las imágenes)
+            val offsetY = (index / 2) * 40 - 40 // Ajusta verticalmente (-40 para empezar en el centro)
 
             // Posicionar la imagen relativa al centro del plato
             foodImage.x = plateCenterX + offsetX
@@ -224,9 +256,14 @@ class CompatibilityActivity : BaseActivity.BaseActivity() {
 
     private fun filterRecipesByIngredients(selectedFoods: List<FoodItem>): List<Recipe> {
         val selectedFoodNames = selectedFoods.map { it.name.toLowerCase() }
+
+        // Filtra las recetas que contienen **todos** los alimentos del plato
         return recipes.filter { recipe ->
-            recipe.ingredients.split(", ").any { ingredient ->
-                selectedFoodNames.any { selectedFood ->
+            val ingredients = recipe.ingredients.split(", ")
+
+            // Verificar si la receta contiene **todos** los ingredientes seleccionados
+            selectedFoodNames.all { selectedFood ->
+                ingredients.any { ingredient ->
                     ingredient.toLowerCase().contains(selectedFood)
                 }
             }
@@ -246,7 +283,7 @@ class CompatibilityActivity : BaseActivity.BaseActivity() {
         }
     }
 
-    private fun clearPlate(plateView: ImageView, selectedFoods: MutableSet<FoodItem>) {
+    private fun clearPlate(plateView: ImageView, selectedFoods: MutableList<FoodItem>) {
         val plateContainer = findViewById<ConstraintLayout>(R.id.main)
 
         // Eliminar todas las vistas dinámicas asociadas con el plato
@@ -260,7 +297,7 @@ class CompatibilityActivity : BaseActivity.BaseActivity() {
         plateView.visibility = View.GONE
     }
 
-    private fun checkForIncompatibilities(selectedFoods: List<FoodItem>) {
+    private fun checkForIncompatibilities(selectedFoods: MutableList<FoodItem>) {
         val alert = findViewById<FrameLayout>(R.id.incompatibilityAlert)
         val animation = findViewById<LottieAnimationView>(R.id.incompatibilityAnimation)
         val textView = findViewById<TextView>(R.id.incompatibilityText)
@@ -273,30 +310,37 @@ class CompatibilityActivity : BaseActivity.BaseActivity() {
             return
         }
 
-        val incompatibleFoods = mutableListOf<Pair<String, String>>()
-        val detectedReasons = mutableListOf<String>()
+        val lastAddedFood = selectedFoods.last() // El último alimento agregado
+        val incompatibleReasons = mutableListOf<String>() // Razones detectadas
 
-        // Detectar incompatibilidades y razones
-        for (i in selectedFoods.indices) {
-            for (j in i + 1 until selectedFoods.size) {
-                val food1 = selectedFoods[i].name
-                val food2 = selectedFoods[j].name
-                val reason = incompatibilityReasons[Pair(food1, food2)] ?: incompatibilityReasons[Pair(food2, food1)]
-                if (reason != null) {
-                    incompatibleFoods.add(Pair(food1, food2))
-                    detectedReasons.add(reason)
-                }
+        // Verificar incompatibilidades del último alimento con los demás
+        for (i in 0 until selectedFoods.size - 1) {
+            val currentFood = selectedFoods[i]
+            val reason = incompatibilityReasons[Pair(lastAddedFood.name, currentFood.name)]
+                ?: incompatibilityReasons[Pair(currentFood.name, lastAddedFood.name)]
+
+            if (reason != null) {
+                incompatibleReasons.add("$reason: ${lastAddedFood.name} y ${currentFood.name}")
             }
         }
 
-        if (incompatibleFoods.isNotEmpty()) {
+        if (incompatibleReasons.isNotEmpty()) {
             // Mostrar la alerta
             alert.visibility = View.VISIBLE
             animation.playAnimation()
             textView.visibility = View.VISIBLE
 
             // Mostrar razones de incompatibilidad
-            reasonsTextView.text = detectedReasons.joinToString(separator = "\n") { it }
+            reasonsTextView.text = incompatibleReasons.joinToString(separator = "\n")
+
+            // Eliminar el último alimento agregado
+            selectedFoods.remove(lastAddedFood)
+
+            // Actualizar la vista del plato
+            updatePlateContent(selectedFoods, findViewById(R.id.emptyPlate)) // Asegúrate de que esta función refresque la vista correctamente
+
+            // Mensaje en Logcat para debug
+            Log.d("CompatibilityActivity", "Eliminado por incompatibilidad: ${lastAddedFood.name}")
 
             // Configurar botón "Entendido"
             buttonUnderstood.setOnClickListener {
