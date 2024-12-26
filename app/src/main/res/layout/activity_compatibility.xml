@@ -164,13 +164,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:background="@color/red_transparent">
+        android:background="@color/red_transparent"
+        android:elevation="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="24dp">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/incompatibilityAnimation"
@@ -185,11 +187,41 @@
                 android:id="@+id/incompatibilityText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Incompatibles"
+                android:layout_marginTop="24dp"
+                android:text="INCOMPATIBLES"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:textSize="24sp" />
+                android:textSize="40sp"
+                android:gravity="center"
+                android:shadowColor="#000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"/>
+
+            <TextView
+                android:id="@+id/incompatibilityReasons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:textAlignment="center"
+                android:text="Motivo de incompatibilidad..."/>
+
+            <!-- Botón para cerrar la alerta -->
+            <Button
+                android:id="@+id/buttonUnderstood"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Entendido"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/rounded_button"
+                android:padding="16dp"
+                android:textSize="16sp" />
         </LinearLayout>
     </FrameLayout>
 
